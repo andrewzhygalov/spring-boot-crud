@@ -2,12 +2,14 @@ package org.zhygalov.springbootcrud.controllers;
 
 
 import java.util.HashSet;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import javax.servlet.http.HttpServletRequest;
 
 import org.zhygalov.springbootcrud.model.*;
 import org.zhygalov.springbootcrud.services.UserService;
@@ -25,16 +27,16 @@ public class UserController {
 	@GetMapping("/admin")
     public String welcome(Model model) {
         model.addAttribute("users", userService.getUsers());
+		model.addAttribute("emptyUser", new User());
 		return "admin";
     }
     @GetMapping("/user")
-    public String welcome() {
+    public String welcome(Model model, HttpServletRequest request) {
+		var user = (User) request.getSession().getAttribute("currentUser");
+		model.addAttribute("users", List.of(user));
 		return "user";
     }
-    @GetMapping("/signup")
-    public String showSignUpForm(User user) {
-        return "adduser";
-    }
+    
    
     @PostMapping("/adduser")
     public String addUser(User user, Model model) {
@@ -45,18 +47,23 @@ public class UserController {
 		model.addAttribute("users", userService.getUsers());
         return "redirect:/admin";
     }
-   
-    @GetMapping("/edit/{id}")
+	
+	@GetMapping("/editform/{id}")
     public String showUpdateForm(@PathVariable("id") long id, Model model) {
         User user = userService.findById(id);
         model.addAttribute("user", user);
-        return "update-user";
+        return "editForm";
     }
-    
+	
+    @GetMapping("/deleteform/{id}")
+    public String showDeleteForm(@PathVariable("id") long id, Model model) {
+        User user = userService.findById(id);
+        model.addAttribute("user", user);
+        return "deleteForm";
+    }
     @PostMapping("/update/{id}")
     public String updateUser(@PathVariable("id") long id, User user, Model model) {
         userService.save(prefixRoles(user));
-        model.addAttribute("users", userService.getUsers());
         return "redirect:/admin";
     }
 	private static User prefixRoles(User user) {
@@ -75,7 +82,7 @@ public class UserController {
 		return user;
 	}
       
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") long id, Model model) {
         User user = userService.findById(id);
         userService.delete(user);

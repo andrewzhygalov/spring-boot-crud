@@ -1,38 +1,82 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Users</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-        <link rel="stylesheet" href="../css/shards.min.css">
-    </head>
-    <body>
-        <table class="table table-striped table-responsive-md">
-				<thead>
-					<tr>
-						<th>First name</th>
-						<th>Last name</th>
-						<th>Age</th>
-						<th>Email</th>
-						<th>Roles</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="user : ${session.users}">
-						<td th:text="${user.firstName}"></td>
-						<td th:text="${user.lastName}"></td>
-						<td th:text="${user.age}"></td>
-						<td th:text="${user.email}"></td>
-						<td th:text="${user.roles}"></td>
-					</tr>
-				</tbody>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>User Panel</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+	<link href="/css/cheatsheet.css" rel="stylesheet">
+	<link href="/css/dashboard.css" rel="stylesheet"> 
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-light">
+	<header class="bd-header bg-dark py-3 d-flex align-items-stretch border-bottom border-dark">
+	  <div class="container-fluid d-flex align-items-center">
+		<h1 class="d-flex align-items-center fs-4 text-white mb-0"
+		 th:text="${session.currentUser.email + ' with roles: ' + #strings.setJoin(session.currentUser.roles, ' ')}">
+		</h1>
+		<a href="../logout" class="ms-auto link-light" hreflang="ar">Logout</a>
+	  </div>
+	</header>
+	<div class="bd-cheatsheet container-fluid bg-white">
+		<div class="bd-heading sticky-xl-top align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
+		<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+			<div class="position-sticky pt-3">
+					<a class="nav-link active" aria-current="page" href="#">
+					  User
+					</a>
+			</div>
+		</nav>
+      </div>
+	 <div>
+		<h2 >User Panel</h2>
+        <nav>
+          <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
+            <a class="nav-link active" id="nav-users-tab" data-bs-toggle="tab" href="#nav-users" role="tab" aria-controls="nav-users" aria-selected="true">User</a>
+		 </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane fade show active" id="nav-users" role="tabpanel" aria-labelledby="nav-users-tab">
+             <table class="table table-striped">
+			  <thead>
+				  <tr>
+					<th scope="col">Id</th>
+					<th scope="col">First Name</th>
+					<th scope="col">Last Name</th>
+					<th scope="col">Age</th>
+					<th scope="col">Email</th>
+					<th scope="col">Roles</th>
+				  </tr>
+			  </thead>
+			  <tbody>
+				 <tr th:each="user : ${users}">
+					<td th:text="${user.id}"></td>
+					<td th:text="${user.firstName}"></td>
+					<td th:text="${user.lastName}"></td>
+					<td th:text="${user.age}"></td>
+					<td th:text="${user.email}"></td>
+					<td th:text="${user.roles}"></td>
+				</tr>
+			  </tbody>
 			</table>
-			<form method=GET th:action="@{/logout}">
-				<input type="submit" class="btn btn-primary" value="Logout">
-			</form>
-		</div>      
-    </body>
+		  </div>
+        </div>
+	   </div>
+	  </div>
+	</div>
+  </body>
 </html>

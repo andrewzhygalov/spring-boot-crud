@@ -1,6 +1,6 @@
 package org.zhygalov.springbootcrud.security;
 
-import org.zhygalov.springbootcrud.model.User;
+import org.zhygalov.springbootcrud.model.*;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
+import static java.util.stream.Collectors.joining;
 
 @Component
 public class SuccessHandler implements AuthenticationSuccessHandler {
@@ -19,7 +20,7 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException {
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 		User user = (User) authentication.getPrincipal();
-		httpServletRequest.getSession().setAttribute("users", Set.of(user));
+		httpServletRequest.getSession().setAttribute("currentUser", user);
 		if (roles.contains("ROLE_ADMIN")) {
             httpServletResponse.sendRedirect("/admin");
         } else {

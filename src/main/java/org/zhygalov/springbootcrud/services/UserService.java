@@ -44,7 +44,11 @@ public class UserService implements UserDetailsService {
 		managed.setLastName(updated.getLastName());
 		managed.setAge(updated.getAge());
 		managed.setEmail(updated.getEmail());
-		managed.setPassword(updated.getPassword());
+		
+		var pass = updated.getPassword();
+		if(!managed.getPassword().equals(pass))
+			managed.setPassword(encoder.encode(pass));
+			
 		managed.setRoles(updated.getRoles());
 		return repo.save(managed);
 	}

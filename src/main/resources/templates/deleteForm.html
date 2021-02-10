@@ -1,0 +1,40 @@
+<form action="#" th:action="@{/delete/{id}(id=${user.id})}" th:object="${user}" method="post">
+	<div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete user</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+     </div>
+      <div class="modal-body">
+			<div class="form-group col-md-6">
+				<label for="id" class="col-form-label">ID</label>
+				<input type="text" th:value="*{id}" class="form-control" id="id" name="id" disabled="true" placeholder="ID">
+			</div>
+			<div class="form-group col-md-6">
+				<label for="firstName" class="col-form-label">First name</label>
+				<input type="text" th:value="*{firstName}" class="form-control" id="firstName" name="firstName" disabled="true" placeholder="First name">
+			</div>
+			<div class="form-group col-md-6">
+				<label for="lastName" class="col-form-label">Last name</label>
+				<input type="text" th:value="*{lastName}" class="form-control" id="lastName" name="lastName" disabled="true" placeholder="Last name">
+			</div>
+			<div class="form-group col-md-6">
+				<label for="age" class="col-form-label">Age</label>
+				<input type="text" th:value="*{age}" class="form-control" id="age" name="age" disabled="true" placeholder="Age">
+			</div>
+			<div class="form-group col-md-6">
+				<label for="email" class="col-form-label">Email</label>
+				<input type="email" th:value="*{email}" class="form-control" id="email" name="email" disabled="true" placeholder="Email">
+			</div>
+			<div class="form-group col-md-6">
+				<label for="password" class="col-form-label">Password</label>
+				<input type="password" th:value="*{password}" class="form-control" id="password" name="password" disabled="true" placeholder="Password">
+			</div>
+			<div class="form-group col-md-6">
+				<label for="roles" class="col-form-label">Roles</label>
+				<input type="text" th:value="${#strings.setJoin(user.roles, ', ')}" class="form-control" id="roles" name="roles" disabled="true" placeholder="Roles">
+			</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </div>
+<form>
