@@ -1,0 +1,28 @@
+
+#sidebarMenu {
+	width: 200px;
+	background: #FFFFFF;
+	position: fixed;
+	top: 62px;
+	bottom: 0;
+	padding: 10px 0 0;
+}
+
+#sidebarMenu .nav-link.active {
+	background: #0000FF;
+	color: #F8F8FF;
+}
+
+#main {
+	position: fixed;
+	width: 1000px;
+	top: 200px;
+	right: 10%;
+	padding: 10px 0 0;
+	overflow-y:scroll;
+	height:400px;
+}
+#user-info {
+	margin-top: 100px;
+	margin-left: 225px;
+}
