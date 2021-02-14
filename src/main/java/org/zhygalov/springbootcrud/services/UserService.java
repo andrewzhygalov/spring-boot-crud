@@ -40,17 +40,18 @@ public class UserService implements UserDetailsService {
 					.get();
 	}
 	private User mergeAndSave(User managed, User updated) {
-		managed.setFirstName(updated.getFirstName());
+		/* managed.setFirstName(updated.getFirstName());
 		managed.setLastName(updated.getLastName());
 		managed.setAge(updated.getAge());
 		managed.setEmail(updated.getEmail());
+		managed.setRoles(updated.getRoles()); */
 		
 		var pass = updated.getPassword();
 		if(!managed.getPassword().equals(pass))
-			managed.setPassword(encoder.encode(pass));
+			updated.setPassword(encoder.encode(pass));
 			
-		managed.setRoles(updated.getRoles());
-		return repo.save(managed);
+		
+		return repo.save(updated);
 	}
 	public User findById(long id) {
 		return repo.findById(id).get();

@@ -25,14 +25,18 @@ public class UserController {
     }
 	
 	@GetMapping("/admin")
-    public String welcome(Model model) {
+    public String admin(Model model, HttpServletRequest request) {
         model.addAttribute("users", userService.getUsers());
 		model.addAttribute("emptyUser", new User());
+		var userId = (long) request.getSession().getAttribute("userId");
+		model.addAttribute("authenticated", userService.findById(userId));
 		return "admin";
     }
     @GetMapping("/user")
-    public String welcome(Model model, HttpServletRequest request) {
-		var user = (User) request.getSession().getAttribute("currentUser");
+    public String user(Model model, HttpServletRequest request) {
+		var userId = (long) request.getSession().getAttribute("userId");
+		var user =  userService.findById(userId);
+		model.addAttribute("authenticated", userService.findById(userId));
 		model.addAttribute("users", List.of(user));
 		return "user";
     }
@@ -88,5 +92,10 @@ public class UserController {
         userService.delete(user);
         model.addAttribute("users", userService.getUsers());
         return "redirect:/admin";
+    }
+	
+	@GetMapping("/error")
+    public String error() {
+        return "redirect:/logout";
     }
 }
