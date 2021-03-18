@@ -2,7 +2,7 @@ package org.zhygalov.springbootcrud.services;
 import org.zhygalov.springbootcrud.model.*;
 import org.zhygalov.springbootcrud.repositories.UserRepository;
 import java.util.HashSet;
-
+import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,12 +40,7 @@ public class UserService implements UserDetailsService {
 					.get();
 	}
 	private User mergeAndSave(User managed, User updated) {
-		/* managed.setFirstName(updated.getFirstName());
-		managed.setLastName(updated.getLastName());
-		managed.setAge(updated.getAge());
-		managed.setEmail(updated.getEmail());
-		managed.setRoles(updated.getRoles()); */
-		
+	
 		var pass = updated.getPassword();
 		if(!managed.getPassword().equals(pass))
 			updated.setPassword(encoder.encode(pass));
@@ -53,13 +48,16 @@ public class UserService implements UserDetailsService {
 		
 		return repo.save(updated);
 	}
-	public User findById(long id) {
+	public User findById(Long id) {
 		return repo.findById(id).get();
 	}
+	
 	public void delete(User user) {
 		repo.delete(user);
 	}
-	
+	public void deleteById(Long id) {
+		delete(findById(id));
+	}
 	public Iterable <User> getUsers(){
 		return repo.findAll();
 	}

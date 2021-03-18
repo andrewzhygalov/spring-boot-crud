@@ -16,8 +16,34 @@
 	
 	<nav id="sidebarMenu" th:insert="fragments :: userSidebar"></nav>
 	<h2 id="user-info"> User-information page</h2>
-	<div id="main" class="container-fluid bg-white d-flex flex-column"
-		th:insert="fragments :: userPanel(users=${users})">
+	<div id="main" class="container-fluid bg-white d-flex flex-column">
+		<div class="p-2">
+			<h3> About user </h3>
+		</div>
+		<div class="p-2">
+			<table class="table table-striped">
+			  <thead>
+				  <tr>
+					<th scope="col">Id</th>
+					<th scope="col">First Name</th>
+					<th scope="col">Last Name</th>
+					<th scope="col">Age</th>
+					<th scope="col">Email</th>
+					<th scope="col">Roles</th>
+				  </tr>
+			  </thead>
+			  <tbody>
+				 <tr>
+					<td th:text="${authenticated.id}"></td>
+					<td th:text="${authenticated.firstName}"></td>
+					<td th:text="${authenticated.lastName}"></td>
+					<td th:text="${authenticated.age}"></td>
+					<td th:text="${authenticated.email}"></td>
+					<td th:text="${#strings.setJoin(authenticated.roles, ',')}"></td>
+				</tr>
+			  </tbody>
+			</table>
+		</div>
 	</div>
   </body>
 </html>

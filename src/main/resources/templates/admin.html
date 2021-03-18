@@ -1,29 +1,137 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin Panel</title>
 	<script src="https:/code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-	<script src="/js/admin.js"></script>
+	<script src="/js/main.js"></script>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 	<link href="/css/style.css" rel="stylesheet"> 
   </head>
   <body class="bg-light">
-	<header class="bd-header bg-dark py-3 d-flex align-items-stretch border-bottom border-dark"
+		<header class="bd-header bg-dark py-3 d-flex align-items-stretch border-bottom border-dark"
 			th:insert="fragments :: header"> </header>
-	
-	<nav id="sidebarMenu" th:insert="fragments :: adminSidebar"></nav>
-	
-	<div id="main" class="container-fluid bg-white d-flex flex-column"
-		th:insert="fragments :: adminPanel(users=${users})">
-	</div>
-	<div class="modal fade" id="exampleModalDefault" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog">
-		<div class="modal-content">	 
+		
+		<nav id="sidebarMenu" th:insert="fragments :: adminSidebar"></nav>
+		
+		<div id="main">
+		<div class="p-2">
+			<h2> Admin panel </h2>
 		</div>
-	  </div>
-	</div> 
+		<div class="p-2">
+			<nav>
+			  <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
+				<a class="nav-link active" id="nav-users-tab" data-bs-toggle="tab" href="#nav-users" role="tab" aria-controls="nav-users" aria-selected="true">Users</a>
+				<a class="nav-link" id="nav-adduser-tab" data-bs-toggle="tab" href="#nav-adduser" role="tab" aria-controls="nav-adduser" aria-selected="false">Add user</a>
+			  </div>
+			</nav>
+		</div>
+		<div class="p-2">
+				<div class="tab-content" id="nav-tabContent">
+				  <div class="tab-pane fade show active" id="nav-users" role="tabpanel" aria-labelledby="nav-users-tab">
+					<table class="table table-striped">
+					  <thead>
+						  <tr>
+							<th scope="col">Id</th>
+							<th scope="col">First Name</th>
+							<th scope="col">Last Name</th>
+							<th scope="col">Age</th>
+							<th scope="col">Email</th>
+							<th scope="col">Roles</th>
+							<th scope="col">Edit</th>
+							<th scope="col">Delete</th>
+						  </tr>
+					  </thead>
+					  <tbody>
+					  </tbody>
+					</table>
+					</div>
+					 <div class="tab-pane fade" id="nav-adduser" role="tabpanel" aria-labelledby="nav-profile-tab">
+							<form action="/users"  method="post" id="add-user">
+								<div class="form-floating mb-3">
+									<input type="text"  class="form-control" id="floatingFirstName" placeholder="First Name">
+									<label for="floatingFirstName">First Name</label>
+								</div>
+								<div class="form-floating mb-3">
+									<input type="text"  class="form-control"  id="floatingLastName" placeholder="Last name">
+									<label for="floatingLastName">Last name</label>
+								</div>
+								<div class="form-floating mb-3">
+									<input type="text"  class="form-control" id="floatingAge" placeholder="Age">
+									<label for="floatingAge">Age</label>
+								</div>
+								<div class="form-floating mb-3">
+									<input type="email"  class="form-control" id="floatingEmail" placeholder="Email">
+									<label for="floatingEmail">Email</label>
+								</div>
+								<div class="form-floating mb-3">
+									<input type="password"  class="form-control" id="floatingPassword" placeholder="Password">
+									<label for="floatingPassword">Password</label>
+								</div>
+								<div class="mb-3">
+								  <select id="floatingRoles" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+									<option selected value="USER">USER</option>
+									<option value="ADMIN">ADMIN</option>
+									<option value="ADMIN, USER">ADMIN, USER</option>
+								  </select>
+								</div>
+								<button class="btn btn-primary" type="submit">Add user</button>
+							</form>
+						  </div>
+						</div>
+					</div>
+				</div>	
+		<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">	
+					<div class="modal-header">
+						<h5 class="modal-title" id="modalLabel"></h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<form id="updateForm" action="#">
+					<div class="modal-body">
+						<div class="form-group col-md-6">
+							<label for="id" class="col-form-label">ID</label>
+							<input type="text"  class="form-control" id="id" name="id" disabled="true" placeholder="ID">
+						</div>
+						<div class="form-group col-md-6">
+							<label for="firstName" class="col-form-label">First name</label>
+							<input type="text" class="form-control" id="firstName" name="firstName" placeholder="First name">
+						</div>
+						<div class="form-group col-md-6">
+							<label for="lastName" class="col-form-label">Last name</label>
+							<input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last name">
+						</div>
+						<div class="form-group col-md-6">
+							<label for="age" class="col-form-label">Age</label>
+							<input type="text" class="form-control" id="age" name="age" placeholder="Age">
+						</div>
+						<div class="form-group col-md-6">
+							<label for="email" class="col-form-label">Email</label>
+							<input type="email" class="form-control" id="email" name="email" placeholder="Email">
+						</div>
+						<div class="form-group col-md-6">
+							<label for="password" class="col-form-label">Password</label>
+							<input type="password"  class="form-control" id="password" name="password" placeholder="Password">
+						</div>
+						<div class="form-group col-md-6">
+							 <label for="roles" class="col-form-label">Roles</label>
+							  <select id="updateRoleSelect" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+								<option value="USER">USER</option>
+								<option value="ADMIN" id="adminOption">ADMIN</option>
+								<option value="ADMIN, USER">ADMIN, USER</option>
+							  </select>
+						</div>
+					</div>
+					 <div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" id="update" class="btn btn-primary"></button>
+					 </div>
+					 </form>
+				</div>
+			</div>
+		</div> 
   </body>
 </html>
